@@ -1,0 +1,1895 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- CAUTION: Do not modify this file unless you know what you are doing. Unexpected results may occur if the code is changed deliberately. -->
+<dbmodel pgmodeler-ver="0.9.0" last-position="0,270" last-zoom="1" default-owner="postgres">
+	<database name="sipam" encoding="UTF8" lc-collate="Polish_Poland.1250" lc-ctype="Polish_Poland.1250">
+		<role name="postgres" />
+		<tablespace name="pg_default" />
+	</database>
+
+	<schema name="public" rect-visible="true" fill-color="#e1e1e1" sql-disabled="true">
+	</schema>
+
+	<schema name="documents" rect-visible="true" fill-color="#9ac721">
+		<role name="postgres" />
+		<comment><![CDATA[schemat rejestru dokumentów]]></comment>
+	</schema>
+
+	<sequence name="docs_document_id_seq" start="1" increment="1" min-value="1" max-value="9223372036854775807" cache="1"
+		cycle="false">
+		<schema name="documents" />
+		<role name="postgres" />
+	</sequence>
+
+	<table name="document">
+		<schema name="documents" />
+		<role name="postgres" />
+		<comment><![CDATA[tabela główna dokumentów]]></comment>
+		<position x="80" y="520" />
+		<column name="document_id" not-null="true">
+			<type name="serial" length="0" />
+			<comment><![CDATA[identyfikator obiektu]]></comment>
+		</column>
+		<column name="document_type_id">
+			<type name="smallint" length="0" />
+			<comment><![CDATA[rodzaj zbioru danych (dokumentu)]]></comment>
+		</column>
+		<column name="title">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[tytuł dokumentu]]></comment>
+		</column>
+		<column name="office_id">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[urzędowy identyfikator dokumentu]]></comment>
+		</column>
+		<column name="create_date">
+			<type name="timestamp with time zone" length="0" with-timezone="true" />
+			<comment><![CDATA[data utworzenia rekordu dokumentu]]></comment>
+		</column>
+		<column name="sign_date">
+			<type name="timestamp with time zone" length="0" with-timezone="true" />
+			<comment><![CDATA[data podpisania dokumentu]]></comment>
+		</column>
+		<column name="legal_date">
+			<type name="timestamp with time zone" length="0" with-timezone="true" />
+			<comment><![CDATA[data uprawomocnienia dokumentu]]></comment>
+		</column>
+		<column name="expiry_date">
+			<type name="timestamp with time zone" length="0" with-timezone="true" />
+			<comment><![CDATA[data wygaśnięcia mocy prawnej dokumentu]]></comment>
+		</column>
+		<column name="start_date">
+			<type name="timestamp with time zone" length="0" with-timezone="true" />
+			<comment><![CDATA[data startu obowiązywania dokumentu w systemie]]></comment>
+		</column>
+		<column name="end_date">
+			<type name="timestamp with time zone" length="0" with-timezone="true" />
+			<comment><![CDATA[data zakończenia obowiązywania dokumentu w systemie]]></comment>
+		</column>
+		<constraint name="document_id_pk" type="pk-constr" table="documents.document">
+			<columns names="document_id" ref-type="src-columns" />
+		</constraint>
+	</table>
+
+	<table name="document_type">
+		<schema name="documents" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Rodzaj dokumentów (tematów danych)]]></comment>
+		<position x="440" y="280" />
+		<column name="document_type_id" not-null="true">
+			<type name="serial" length="0" />
+		</column>
+		<column name="name">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[nazwa systemowa dokumentu (zbioru danych)]]></comment>
+		</column>
+		<column name="fullname">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[nazwa własna dokumentu (zbioru danych)]]></comment>
+		</column>
+		<column name="shortname">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[nazwa skrótowa dokumentu (zbioru danych)]]></comment>
+		</column>
+		<column name="only_local">
+			<type name="boolean" length="0" />
+			<comment><![CDATA[atrybut określający, czy typ dokumentu ma charakter wyłącznie lokalny]]></comment>
+		</column>
+		<column name="management">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Zarządzca danych]]></comment>
+		</column>
+		<constraint name="document_type_id_pk" type="pk-constr" table="documents.document_type">
+			<columns names="document_type_id" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[document_type_id•name•fullname•shortname•only_local•geom_defult•geom_points•geom_lines•management•geom_polygons⸣
+1•closed_zones•Strefy zamknięte dla żeglugi i rybołówstwa•Strefy zamknięte dla żeglugi i rybołówstwa•false•A•0•0•MGMiŻŚ•1⸣
+2•dangerous_zones•Strefy niebezpieczne dla żeglugi i rybołówstwa (wraz z określeniem terminów uznania strefy za niebezpiecz.)•Strefy niebezpieczne dla żeglugi i rybołówstwa•false•A•0•0•MGMiŻŚ•1⸣
+3•ship_traffic•System rozgraniczenia ruchu statków•System rozgraniczenia ruchu statków•false•A•0•0•MGMiŻŚ•1⸣
+4•sea_routes•Ustanowione trasy przepływu i drogi morskie•Ustanowione trasy przepływu i drogi morskie•false•A•0•0•MGMiŻŚ•1⸣
+5•internal_sea•Granice morskich wód wewnętrznych•Granice morskich wód wewnętrznych•false•L•0•1•MGMiŻŚ•0⸣
+6•territorial_sea•Granica morza terytorialnego RP•Granica morza terytorialnego RP•false•L•1•1•MGMiŻŚ•0⸣
+7•economic_zones•Granica Wyłącznej Strefy Ekonomicznej RP•Granica Wyłącznej Strefy Ekonomicznej RP•false•A•1•1•MGMiŻŚ•1⸣
+8•maritime_zones•Granica morskiej strefy przyległej RP•Granica morskiej strefy przyległej RP•false•A•1•1•MGMiŻŚ•1⸣
+9•safety_zones•Strefy bezpieczeństwa wokół sztucznych wysp, konstrukcji i urządzeń ustanowione przez urząd morski•Strefy bezpieczeństwa ustanowione przez urząd morski•false•A•1•1•UM•1⸣
+10•permits_location•Lokalizacja pozwoleń na inwestycje w polskich obszarach morskich•Lokalizacja pozwoleń na inwestycje w polskich obszarach morskich•false•A•1•1•MGMiŻŚ•1⸣
+11•submarine_axes•Osie podmorskich kabli i rurociągów•Osie podmorskich kabli i rurociągów•false•L•1•1•MGMiŻŚ, UM•0⸣
+12•ship_wrecks•Wraki statków w polskich obszarach morskich oraz inne obiekty zabytkowe•Wraki statków w polskich obszarach morskich•false•P•1•0•MGMiŻŚ•0⸣
+13•coastal_belt•Granice pasa nadbrzeżnego (pas techniczny i pa ochronny)•Granice pasa nadbrzeżnego•false•L•0•1•UM•0⸣
+14•offices_zones•Granice zakresu działania dyrektorów urzędów morskich•Granice zakresu działania dyrektorów urzędów morskich•false•A•0•0•MGMiŻŚ•1⸣
+15•port_boundaries•Granice portów i ich red•Granice portów i ich red•false•A•0•1•MGMiŻŚ•1⸣
+16•marinas_boundaries•Granice przystani morskich, kotwicowisk•Granice przystani morskich, kotwicowisk•false•A•0•1•MGMiŻŚ, UM•1⸣
+17•access_infrastructure•Obiekty infrastruktury zapewniające dostęp do portów i przystani•Obiekty infrastruktury zapewniające dostęp do portów i przystani•false•P•1•1•MGMiŻŚ•1⸣
+18•approach_paths•Tory podejściowe•Tory podejściowe•false•A•0•0•MGMiŻŚ•1⸣
+19•coastal_milage•Kilometraż wybrzeża morskiego•Kilometraż wybrzeża morskiego•false•P•1•0•UM•0⸣
+20•entries_numbering•Numeracja wejść na plażę•Numeracja wejść na plażę•false•P•1•0•UM•1⸣
+21•conservation_plans•Plany ochrony Natura 2000 na obszarach morskich•Plany ochrony Natura 2000 na obszarach morskich•false•A•1•1•UM•1⸣
+22•coase_line•Linia brzegu•Linia brzegu•false•L•1•1•UM•0⸣
+23•base_line•Linia podstawowa•Linia podstawowa•false•L•1•1•MGMiŻŚ•0⸣
+24•protection_border•Graniczna linia ochrony•Graniczna linia ochrony•false•L•1•1•MGMiŻŚ•0⸣
+25•coast_protection•Odcinki brzegu objęte programem ochrony brzegów morskich•Odcinki brzegu objęte programem ochrony brzegów morskich•false•L•1•1•UM•0⸣
+26•bathymetric_data•Dane batymetryczne•Dane batymetryczne•false•R•0•0•UM•0⸣
+27•lidar•Dane z systemu LIDAR•Dane z systemu LIDAR•false•R•0•0•UM•0⸣
+28•orthophotomaps•Ortofotomapy•Ortofotomapy•false•R•0•0•UM•0⸣
+29•technical_belts_uses•Zgoda na wykorzystanie terenów położonych w granicach pasa technicznego do celów innych niż wymienione w art. 37 ust 1 (ustawa o obszarach morskich i administracji morskiej RP)•Zgoda na wykorzystanie terenów położonych w granicach pasa technicznego•false•A•0•0•UM•1⸣
+30•bans_exemption•Zgoda na zwolnienie z zakazów określonych w art. 88 l prawa wodnego•Zgoda na zwolnienie z zakazów•false•A•0•0•UM•1⸣
+31•uses_agreements•Umowy użytkowania•Umowy użytkowania•false•A•0•0•UM•1⸣
+32•sea_waters_management•Decyzje o trwałym zarządzie Wm (wody morskie)•Decyzje o trwałym zarządzie Wm (wody morskie)•false•A•0•0•UM•1⸣
+33•land_managment•Decyzje o trwałym zarządzie ląd•Decyzje o trwałym zarządzie ląd•false•A•0•0•UM•1⸣
+34•forestry_plans•Plan Urządzenia Lasu Urzędów Morskich•Plan Urządzenia Lasu Urzędów Morskich•false•A•0•1•UM•1]]>
+		</initial-data>
+	</table>
+
+	<table name="document_geometries">
+		<schema name="documents" />
+		<role name="postgres" />
+		<comment><![CDATA[tabela przechowująca geometrię obiektów powiązanych z dokumentem]]></comment>
+		<position x="400" y="20" />
+		<column name="geometry_id" not-null="true">
+			<type name="serial" length="0" />
+			<comment><![CDATA[identyfikator wersji geometrii obiektów powiązanych z dokumentem]]></comment>
+		</column>
+		<column name="document_id">
+			<type name="smallint" length="0" />
+			<comment><![CDATA[identyfikator dokumentu do którego przypisana jest geometria]]></comment>
+		</column>
+		<column name="geom_points">
+			<type name="geography" length="0" spatial-type="MULTIPOINT" variation="0" srid="4258" />
+			<comment><![CDATA[geometria obiektów punktowych w typie MultiPoint]]></comment>
+		</column>
+		<column name="geom_lines">
+			<type name="geography" length="0" spatial-type="MULTILINESTRING" variation="0" srid="4258" />
+			<comment><![CDATA[geometria obiektów liniowych w typie MultiLinestring]]></comment>
+		</column>
+		<column name="geom_polygons">
+			<type name="geography" length="0" spatial-type="MULTIPOLYGON" variation="0" srid="4258" />
+			<comment><![CDATA[geometria obiektów poligonowych w typie MultiPolygon]]></comment>
+		</column>
+		<column name="version_start_date">
+			<type name="timestamp with time zone" length="0" with-timezone="true" />
+			<comment><![CDATA[data startu wersji geometrii]]></comment>
+		</column>
+		<column name="version_end_date">
+			<type name="timestamp with time zone" length="0" with-timezone="true" />
+			<comment><![CDATA[data końca wersji geometrii]]></comment>
+		</column>
+		<constraint name="geometry_id_pk" type="pk-constr" table="documents.document_geometries">
+			<columns names="geometry_id" ref-type="src-columns" />
+		</constraint>
+	</table>
+
+	<table name="document_attachments">
+		<schema name="documents" />
+		<role name="postgres" />
+		<comment><![CDATA[tabela przechowująca geometrię obiektów powiązanych z dokumentem]]></comment>
+		<position x="60" y="20" />
+		<column name="attachment_id" not-null="true">
+			<type name="serial" length="0" />
+			<comment><![CDATA[identyfikator załącznika powiązanego z dokumentem]]></comment>
+		</column>
+		<column name="document_id">
+			<type name="smallint" length="0" />
+			<comment><![CDATA[identyfikator dokumentu do którego przypisany jest załącznik]]></comment>
+		</column>
+		<column name="filename">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[nazwa załącznika]]></comment>
+		</column>
+		<column name="filepath">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[ścieżka do załącznika]]></comment>
+		</column>
+		<column name="version_start_date">
+			<type name="timestamp with time zone" length="0" with-timezone="true" />
+			<comment><![CDATA[data startu wersji załącznika]]></comment>
+		</column>
+		<column name="version_end_date">
+			<type name="timestamp with time zone" length="0" with-timezone="true" />
+			<comment><![CDATA[data końca wersji załącznika]]></comment>
+		</column>
+		<constraint name="attachment_id_pk" type="pk-constr" table="documents.document_attachments">
+			<columns names="attachment_id" ref-type="src-columns" />
+		</constraint>
+	</table>
+
+	<table name="document_photos">
+		<schema name="documents" />
+		<role name="postgres" />
+		<comment><![CDATA[tabela przechowująca zdjęcia powiązane z dokumentem]]></comment>
+		<position x="80" y="200" />
+		<column name="photo_id" not-null="true">
+			<type name="serial" length="0" />
+			<comment><![CDATA[identyfikator zdjęcia powiązanego z dokumentem]]></comment>
+		</column>
+		<column name="document_id">
+			<type name="smallint" length="0" />
+			<comment><![CDATA[identyfikator dokumentu do którego przypisane jest zdjęcie]]></comment>
+		</column>
+		<column name="photoname">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[nazwa zdjęcia]]></comment>
+		</column>
+		<column name="photopath">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[ścieżka do zdjęcia]]></comment>
+		</column>
+		<column name="version_start_date">
+			<type name="timestamp with time zone" length="0" with-timezone="true" />
+			<comment><![CDATA[data startu wersji zdjęcia]]></comment>
+		</column>
+		<column name="version_end_date">
+			<type name="timestamp with time zone" length="0" with-timezone="true" />
+			<comment><![CDATA[data końca wersji zdjęcia]]></comment>
+		</column>
+		<column name="location">
+			<type name="geometry" length="0" spatial-type="POINT" variation="0" srid="4258" />
+			<comment><![CDATA[geometria punktu z geoTagg zdjęcia]]></comment>
+		</column>
+		<constraint name="photo_id_pk" type="pk-constr" table="documents.document_photos">
+			<columns names="photo_id" ref-type="src-columns" />
+		</constraint>
+	</table>
+
+	<schema name="documents_data" rect-visible="true" fill-color="#e1e1e1">
+		<role name="postgres" />
+		<comment><![CDATA[informacje szczegółowe nt. poszczególnych dokumentów (zbiorów danych)]]></comment>
+	</schema>
+
+	<table name="ship_traffic">
+		<schema name="documents_data" />
+		<role name="postgres" />
+		<comment><![CDATA[System rozgraniczenia ruchu statków]]></comment>
+		<position x="120" y="900" />
+		<column name="document_data_id" not-null="true">
+			<type name="serial" length="0" />
+			<comment><![CDATA[identyfikator obiektu szczegółowej informacji opisowej]]></comment>
+		</column>
+		<column name="document_id">
+			<type name="smallint" length="0" />
+			<comment><![CDATA[identyfikator dokumentu ]]></comment>
+		</column>
+		<column name="start_date">
+			<type name="timestamp with time zone" length="0" with-timezone="true" />
+			<comment><![CDATA[data początku wersji obiektu]]></comment>
+		</column>
+		<column name="end_date">
+			<type name="timestamp with time zone" length="0" with-timezone="true" />
+			<comment><![CDATA[data końca wersji obiektu]]></comment>
+		</column>
+		<constraint name="ship_traffic_pk" type="pk-constr" table="documents_data.ship_traffic">
+			<columns names="document_data_id" ref-type="src-columns" />
+		</constraint>
+	</table>
+
+	<schema name="dictionary" rect-visible="true" fill-color="#aaaa7f">
+		<role name="postgres" />
+		<comment><![CDATA[schemat słowników]]></comment>
+	</schema>
+
+	<table name="dictionary_technical_belts_uses_character">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Charakter przedsięwzięcia w odniesieniu do decyzji DUM na wykorzystanie pasa technicznego do celów innych niż ochronne]]></comment>
+		<position x="1100" y="40" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_technical_belts_uses_character_pk" type="pk-constr"
+			table="dictionary.dictionary_technical_belts_uses_character">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+budowa•Zabudowa i zagospodarowanie nie związane z prowadzoną sezonową działalnością gospodarczą, remont/przebudowa obiektów, wykonanie dojść do wody, pomostów itp.⸣
+dzialnosc_gospodarcza•Sezonowa działalność gospodarcza sezonowa (w tym działalność gospodarcza prowadzona na plaży, akcje promocyjne)⸣
+imprezy•Imprezy okolicznościowe w tym ognisko, grill, ślub, fajerwerki, przejażdżki konne, wjazd samochodem w celach np: badawczych, prowadzenie badań ]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_ship_traffic_type">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Rodzaj rozgraniczenia ruchu statków (??być może do usuniecia????)]]></comment>
+		<position x="1140" y="660" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_ship_traffic_type_pk" type="pk-constr" table="dictionary.dictionary_ship_traffic_type">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+tss_pas•<uzupełnić um gdynia>⸣
+tss_separator•<uzupełnić um gdynia>⸣
+tss_skrzyzowanie•<uzupełnić um gdynia>⸣
+tor_rekomendowany•<uzupełnić um gdynia>]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_maritime_office">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Urzędy Morskie]]></comment>
+		<position x="760" y="340" />
+		<column name="mo" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod Urzędu Morskiego]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<column name="adress">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Adres (ulica, nr, kod pocztowy)]]></comment>
+		</column>
+		<column name="www">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Strona internetowa UM]]></comment>
+		</column>
+		<column name="phone">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Telefon]]></comment>
+		</column>
+		<constraint name="dictionary_maritime_office_pk" type="pk-constr" table="dictionary.dictionary_maritime_office">
+			<columns names="mo" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[description•adress•www•phone•mo⸣
+Urząd Morski w Gdyni•ul. Chrzanowskiego 10, 81-338 Gdynia•www.umgdy.gov.pl•+48 (58) 355 33 33•umgdy⸣
+Urząd Morski w Słupsku•al. Sienkiewicza 18, 76-200 Słupsk•www.umsl.gov.pl•+48 (59) 847 42 57•umsl⸣
+Urząd Morski w Szczecinie•pl. Stefana Batorego 4, 70-207 Szczecin•www.ums.gov.pl•+48 (91) 440 34 69•ums⸣
+Ministerstwo Gospodarski Morskiej i Żeglugi Śródlądowej•ul. Nowy Świat 6/12, 00-400 Warszawa•www.gov.pl/web/gospodarkamorska•+48 (22) 583 86 70•mgmizs]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_sea_routes_status">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Status tras przepływu i dróg morskich]]></comment>
+		<position x="1140" y="800" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_sea_routes_status_pk" type="pk-constr" table="dictionary.dictionary_sea_routes_status">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+BP•nie rozpoczęto pomiarów⸣
+BRK•brak danych⸣
+RP•rozpoczęto pomiary⸣
+ZP•zakończono pomiary]]>
+		</initial-data>
+	</table>
+	
+		<table name="document_type">
+		<schema name="documents" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Rodzaj dokumentów (tematów danych)]]></comment>
+		<position x="440" y="280" />
+		<column name="document_type_id" not-null="true">
+			<type name="serial" length="0" />
+		</column>
+		<column name="name">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[nazwa systemowa dokumentu (zbioru danych)]]></comment>
+		</column>
+		<column name="fullname">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[nazwa własna dokumentu (zbioru danych)]]></comment>
+		</column>
+		<column name="shortname">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[nazwa skrótowa dokumentu (zbioru danych)]]></comment>
+		</column>
+		<column name="only_local">
+			<type name="boolean" length="0" />
+			<comment><![CDATA[atrybut określający, czy typ dokumentu ma charakter wyłącznie lokalny]]></comment>
+		</column>
+		<column name="management">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Zarządzca danych]]></comment>
+		</column>
+		<constraint name="document_type_id_pk" type="pk-constr" table="documents.document_type">
+			<columns names="document_type_id" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[document_type_id•name•fullname•shortname•only_local•geom_defult•geom_points•geom_lines•management•geom_polygons⸣
+1•closed_zones•Strefy zamknięte dla żeglugi i rybołówstwa•Strefy zamknięte dla żeglugi i rybołówstwa•false•A•0•0•MGMiŻŚ•1⸣
+2•dangerous_zones•Strefy niebezpieczne dla żeglugi i rybołówstwa (wraz z określeniem terminów uznania strefy za niebezpiecz.)•Strefy niebezpieczne dla żeglugi i rybołówstwa•false•A•0•0•MGMiŻŚ•1⸣
+3•ship_traffic•System rozgraniczenia ruchu statków•System rozgraniczenia ruchu statków•false•A•0•0•MGMiŻŚ•1⸣
+4•sea_routes•Ustanowione trasy przepływu i drogi morskie•Ustanowione trasy przepływu i drogi morskie•false•A•0•0•MGMiŻŚ•1⸣
+5•internal_sea•Granice morskich wód wewnętrznych•Granice morskich wód wewnętrznych•false•L•0•1•MGMiŻŚ•0⸣
+6•territorial_sea•Granica morza terytorialnego RP•Granica morza terytorialnego RP•false•L•1•1•MGMiŻŚ•0⸣
+7•economic_zones•Granica Wyłącznej Strefy Ekonomicznej RP•Granica Wyłącznej Strefy Ekonomicznej RP•false•A•1•1•MGMiŻŚ•1⸣
+8•maritime_zones•Granica morskiej strefy przyległej RP•Granica morskiej strefy przyległej RP•false•A•1•1•MGMiŻŚ•1⸣
+9•safety_zones•Strefy bezpieczeństwa wokół sztucznych wysp, konstrukcji i urządzeń ustanowione przez urząd morski•Strefy bezpieczeństwa ustanowione przez urząd morski•false•A•1•1•UM•1⸣
+10•permits_location•Lokalizacja pozwoleń na inwestycje w polskich obszarach morskich•Lokalizacja pozwoleń na inwestycje w polskich obszarach morskich•false•A•1•1•MGMiŻŚ•1⸣
+11•submarine_axes•Osie podmorskich kabli i rurociągów•Osie podmorskich kabli i rurociągów•false•L•1•1•MGMiŻŚ, UM•0⸣
+12•ship_wrecks•Wraki statków w polskich obszarach morskich oraz inne obiekty zabytkowe•Wraki statków w polskich obszarach morskich•false•P•1•0•MGMiŻŚ•0⸣
+13•coastal_belt•Granice pasa nadbrzeżnego (pas techniczny i pa ochronny)•Granice pasa nadbrzeżnego•false•L•0•1•UM•0⸣
+14•offices_zones•Granice zakresu działania dyrektorów urzędów morskich•Granice zakresu działania dyrektorów urzędów morskich•false•A•0•0•MGMiŻŚ•1⸣
+15•port_boundaries•Granice portów i ich red•Granice portów i ich red•false•A•0•1•MGMiŻŚ•1⸣
+16•marinas_boundaries•Granice przystani morskich, kotwicowisk•Granice przystani morskich, kotwicowisk•false•A•0•1•MGMiŻŚ, UM•1⸣
+17•access_infrastructure•Obiekty infrastruktury zapewniające dostęp do portów i przystani•Obiekty infrastruktury zapewniające dostęp do portów i przystani•false•P•1•1•MGMiŻŚ•1⸣
+18•approach_paths•Tory podejściowe•Tory podejściowe•false•A•0•0•MGMiŻŚ•1⸣
+19•coastal_milage•Kilometraż wybrzeża morskiego•Kilometraż wybrzeża morskiego•false•P•1•0•UM•0⸣
+20•entries_numbering•Numeracja wejść na plażę•Numeracja wejść na plażę•false•P•1•0•UM•1⸣
+21•conservation_plans•Plany ochrony Natura 2000 na obszarach morskich•Plany ochrony Natura 2000 na obszarach morskich•false•A•1•1•UM•1⸣
+22•coase_line•Linia brzegu•Linia brzegu•false•L•1•1•UM•0⸣
+23•base_line•Linia podstawowa•Linia podstawowa•false•L•1•1•MGMiŻŚ•0⸣
+24•protection_border•Graniczna linia ochrony•Graniczna linia ochrony•false•L•1•1•MGMiŻŚ•0⸣
+25•coast_protection•Odcinki brzegu objęte programem ochrony brzegów morskich•Odcinki brzegu objęte programem ochrony brzegów morskich•false•L•1•1•UM•0⸣
+26•bathymetric_data•Dane batymetryczne•Dane batymetryczne•false•R•0•0•UM•0⸣
+27•lidar•Dane z systemu LIDAR•Dane z systemu LIDAR•false•R•0•0•UM•0⸣
+28•orthophotomaps•Ortofotomapy•Ortofotomapy•false•R•0•0•UM•0⸣
+29•technical_belts_uses•Zgoda na wykorzystanie terenów położonych w granicach pasa technicznego do celów innych niż wymienione w art. 37 ust 1 (ustawa o obszarach morskich i administracji morskiej RP)•Zgoda na wykorzystanie terenów położonych w granicach pasa technicznego•false•A•0•0•UM•1⸣
+30•bans_exemption•Zgoda na zwolnienie z zakazów określonych w art. 88 l prawa wodnego•Zgoda na zwolnienie z zakazów•false•A•0•0•UM•1⸣
+31•uses_agreements•Umowy użytkowania•Umowy użytkowania•false•A•0•0•UM•1⸣
+32•sea_waters_management•Decyzje o trwałym zarządzie Wm (wody morskie)•Decyzje o trwałym zarządzie Wm (wody morskie)•false•A•0•0•UM•1⸣
+33•land_managment•Decyzje o trwałym zarządzie ląd•Decyzje o trwałym zarządzie ląd•false•A•0•0•UM•1⸣
+34•forestry_plans•Plan Urządzenia Lasu Urzędów Morskich•Plan Urządzenia Lasu Urzędów Morskich•false•A•0•1•UM•1]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_sea_routes_category">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Kategoria tras przepływu i dróg morskich]]></comment>
+		<position x="1140" y="920" />
+		<column name="code" not-null="true">
+			<type name="smallint" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_sea_routes_category_pk" type="pk-constr" table="dictionary.dictionary_sea_routes_category">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+1•Kategoria I -  trasy żeglugowe⸣
+2•Kategoria II -  trasy żeglugowe⸣
+3•Kategoria III - obszary, których priorytetowe przeznaczenie jest inne niż żegluga]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_ship_wrecks_status">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Status wraku lub obiektu zabytkowego]]></comment>
+		<position x="1560" y="1120" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_ship_wrecks_status_pk" type="pk-constr" table="dictionary.dictionary_ship_wrecks_status">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+A•<uzupełnić BHMW>⸣
+B•<uzupełnić BHMW>⸣
+AchUM•<uzupełnić BHMW>]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_ship_wrecks_category">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Kategoria Obiektu Podwodnego]]></comment>
+		<position x="1580" y="1320" />
+		<column name="code" not-null="true">
+			<type name="smallint" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_ship_wrecks_category_pk" type="pk-constr" table="dictionary.dictionary_ship_wrecks_category">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+1•non-dangerous wreck⸣
+2•dangerous wreck⸣
+3•distributed remains of wreck⸣
+4•wreck showing mast/masts⸣
+5•wreck showing any portion of hull or superstructure  ⸣
+6•<uzupełnić BHMW>⸣
+999•<uzupełnić BHMW>]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_coastal_belt_status">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Status granice pasa nadbrzeżnego ]]></comment>
+		<position x="1560" y="40" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_coastal_belt_status_pk" type="pk-constr" table="dictionary.dictionary_coastal_belt_status">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+obowiazujacy•obowiązujący]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_port_boundaries_status">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Status granice portów i ich red]]></comment>
+		<position x="1560" y="720" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_port_boundaries_status_pk" type="pk-constr" table="dictionary.dictionary_port_boundaries_status">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+obowiazujacy•obowiązujący]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_marinas_boundaries_status">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Status granic przystani morskich]]></comment>
+		<position x="1540" y="820" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_marinas_boundaries_status_pk" type="pk-constr"
+			table="dictionary.dictionary_marinas_boundaries_status">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+obowiazujacy•obowiązujący]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_access_infrastructure_type">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Typ obiektu infrastruktury zapewniającej dostęp do portów i przystani]]></comment>
+		<position x="1120" y="400" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+		</column>
+		<constraint name="dictionary_access_infrastructure_type_pk" type="pk-constr"
+			table="dictionary.dictionary_access_infrastructure_type">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+falochron•falochron⸣
+grobla•grobla⸣
+opaska•opaska⸣
+ostroga•ostroga⸣
+obrotnica•obrotnica⸣
+tor_p•tor podejściowy⸣
+tor_w•tor_wodny⸣
+kanal•kanał portowy⸣
+kotwicowisko•kotwicowisko]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_access_infrastructure_mastery">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Władający]]></comment>
+		<position x="1980" y="1420" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_access_infrastructure_mastery_pk" type="pk-constr"
+			table="dictionary.dictionary_access_infrastructure_mastery">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+dum•Dyrektor Urzędu Morskiego⸣
+zp•Zarząd portu⸣
+sp•Skarb państwa⸣
+jst•Jednostka samorządu terytorialnego⸣
+osoba•Osoba fizyczna⸣
+przedsiebiorca•Przedsiębiorca⸣
+mon•Minister Obrony Narodowej⸣
+amw•Agencja Mienia Wojskowego⸣
+lp•PGL Lasy Państwowe]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_access_infrastructure_mastery_type">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Rodzaj władania]]></comment>
+		<position x="1100" y="500" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_access_infrastructure_mastery_type_pk" type="pk-constr"
+			table="dictionary.dictionary_access_infrastructure_mastery_type">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+wlasnosc•własność⸣
+zarzad•zarząd⸣
+uzytkowanie•użytkowanie⸣
+uzyczenie•umowa użyczenia⸣
+brak•brak tytułu władania⸣
+bud_rozebrany•budynek rozebrany⸣
+dzierzawa•umowa dzierżawy⸣
+najm•umowa najmy]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_access_infrastructure_use_typ">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Sposób korzystania]]></comment>
+		<position x="1100" y="260" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_access_infrastructure_coordinate_pk" type="pk-constr"
+			table="dictionary.dictionary_access_infrastructure_use_typ">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+wladanie•władanie⸣
+dzierzawa•wydzierżawione⸣
+wynajem•wynajmowane⸣
+uzyczenie•użyczenie (bezpłatne)]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_approach_paths_type">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik:Typ torów podejściowych]]></comment>
+		<position x="1980" y="60" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_approach_paths_type_pk" type="pk-constr" table="dictionary.dictionary_approach_paths_type">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+obr•obrotnica⸣
+tor_p•tor podejściowy⸣
+tor_w•tor_wodny⸣
+kanal•kanał portowy]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_coastal_milage_status">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Status kilometraża wybrzeża morskiego]]></comment>
+		<position x="1540" y="180" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_coastal_milage_status_pk" type="pk-constr" table="dictionary.dictionary_coastal_milage_status">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+virtual•<uzgodnić UM GDYNIA>]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_coastal_milage_type">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Typ kilometraża wybrzeża morskiego]]></comment>
+		<position x="1540" y="420" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_coastal_milage_type_pk" type="pk-constr" table="dictionary.dictionary_coastal_milage_type">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+virtual•<uzgodnić UM GDYNIA>]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_coastal_milage_state">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Stan kilometraża wybrzeża morskiego]]></comment>
+		<position x="1540" y="520" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_coastal_milage_state_pk" type="pk-constr" table="dictionary.dictionary_coastal_milage_state">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+zniszczony•zniszczony]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_entries_numbering_type">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Typ wejść na plażę]]></comment>
+		<position x="1540" y="620" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_entries_numbering_type_pk" type="pk-constr" table="dictionary.dictionary_entries_numbering_type">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+przejscie•przejście]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_obwody_ow">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Obwody Ochronne Wybrzeża]]></comment>
+		<position x="760" y="500" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<column name="mo" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod urzędu morskiego]]></comment>
+		</column>
+		<column name="adress">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Adres]]></comment>
+		</column>
+		<column name="phone">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Telefon]]></comment>
+		</column>
+		<column name="email">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Adres email]]></comment>
+		</column>
+		<constraint name="dictionary_oow_pk" type="pk-constr" table="dictionary.dictionary_obwody_ow">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[description•mo•code•adress•email•phone⸣
+Obwód Ochrony Wybrzeża Ustka•umsl•OOWUstka•76-270 Ustka, ul. Kościuszki 13•owustka@umsl.gov.pl•(059) 814-42-56⸣
+Obwód Ochrony Wybrzeża Łeba•umsl•OOWLeba•84-360 Łeba, ul. T. Kościuszki•owleba@umsl.gov.pl•(059) 866-12-77⸣
+Obwód Ochrony Wybrzeża Darłowo•umsl•OOWDarlowo•76-150 Darłowo, ul. Zachodnia 2•owdarlowo@umsl.gov.pl•(094) 340-68-46⸣
+Obwód Ochrony Wybrzeża Ustronie Morskie•umsl•OOWUstronieM•78-111 Ustronie Morskie,ul. Nadbrzeżna 8•owustronie@umsl.gov.pl•(094) 351-55-89⸣
+Obwód Ochrony Wybrzeża Międzyzdroje•ums•OOW-I•72-500 Międzyzdroje, ul. Marii Curie Skłodowskiej 18 •oowmiedzyzdroje@ums.gov.pl•(091) 328-01-19 ⸣
+Obwód Ochrony Wybrzeża Niechorze•ums•OOW-II•72-350 Niechorze, ul. Nadmorska 4 •oowniechorze@ums.gov.pl•(091) 386-34-61 ⸣
+Obwód Ochrony Wybrzeża Wolin•ums•OOW-III•72-510 Wolin, ul. Niedomira 22 •oowwolin@ums.gov.pl•(091) 326-18-09 ⸣
+Obwód Ochrony Wybrzeża Nowe Warpno•ums•OOW-IV•72-022 Nowe Warpno, ul. Kilińskiego 5 •jszarzec@ums.gov.pl •(091) 312-96-70 ⸣
+Obwód Ochrony Wybrzeża Kanał Piastowski•ums•OOW-V•72-603 Świnoujście, ul. Barkowa 10 •oowkanalpiast@ums.gov.pl•(091) 322-14-22 ⸣
+Obwód Ochrony Wybrzeża Sobieszewo•umgdy•OOWSobieszewo•80-680 Gdańsk, ul.Tęczowa10••(058) 308-07-35⸣
+Obwód Ochrony Wybrzeża Sztutowo•umgdy•OOWSztutowo•82-110 Sztutowo ul. Obozowa 10••(058) 247-83-74⸣
+Obwód Ochrony Wybrzeża Rozewie•umgdy•OOWRozewie•84-104 Władysławowo, ul. Rozewska 17••(058) 674-91-54⸣
+Obwód Ochrony Wybrzeża Lubiatowo•umgdy•OOWLubitowo•84-210 Lubiatowo, Topolowa 16••(058) 676-81-61]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_conservation_plans_type_n2000">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Kod typu obszaru ochrony Natura 2000]]></comment>
+		<position x="1960" y="360" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_conservation_plans_type_code_pk" type="pk-constr"
+			table="dictionary.dictionary_conservation_plans_type_n2000">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+oso•Obszar specjalnej ochrony ptaków ⸣
+soo•Specjalne obszary ochrony siedlisk ]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_conservation_plans_oso">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Obszary specjalnej ochrony ptaków (OSO)]]></comment>
+		<position x="1960" y="460" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_conservation_plans_plb_pk" type="pk-constr" table="dictionary.dictionary_conservation_plans_oso">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+PLB220005•Zatoka Pucka⸣
+PLB220010•Bielawskie Błota⸣
+PLB220004•Ujście Wisły⸣
+PLB990003•Zatoka Pomorska]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_conservation_plans_soo">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Specjalne obszary ochrony siedlisk (SOO)]]></comment>
+		<position x="1980" y="560" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_conservation_plans_plh_pk" type="pk-constr" table="dictionary.dictionary_conservation_plans_soo">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+PLH220032•Zatoka Pucka i Półwysep Helski⸣
+PLH220044•Ostoja w Ujściu Wisły⸣
+PLH280007•Zalew Wiślany i Mierzeja Wiślana ⸣
+PLH990002•Ostoja na Zatoce Pomorskie]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_coase_line_status">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Stan linii brzegu]]></comment>
+		<position x="2000" y="680" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_coase_line_state_pk" type="pk-constr" table="dictionary.dictionary_coase_line_status">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+obowiazujacy•obowiązujący]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_coase_line_type_coast">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Rodzaj linii brzegu]]></comment>
+		<position x="2000" y="800" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_coase_line_type_coast_pk" type="pk-constr" table="dictionary.dictionary_coase_line_type_coast">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+bud•budowla⸣
+bud_reg•budowla regulacyjna⸣
+kamyki•kamyki⸣
+nabrzeze•nabrzeże⸣
+piasek•piasek⸣
+porost_traw•porost traw⸣
+staly_porost_traw•stały porost traw⸣
+trawa•trawa⸣
+u_brzegowe•u. brzegowe <uzgodnić z um gdynia>⸣
+umocnienie•umocnienie⸣
+woda10lat•woda 10-letnia⸣
+zew_ kra_bud•zewnętrzna krawędź budowli]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_permits_location_type">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Rodzaj inwestycji]]></comment>
+		<position x="2000" y="920" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_permits_location_type_pk" type="pk-constr" table="dictionary.dictionary_permits_location_type">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+nabrzeze•Nabrzeże⸣
+pomost•Pomost⸣
+mfw•Morska farma wiatrowa⸣
+platforma_monit•Platforma monitoringowa⸣
+ostroga•Ostroga⸣
+falochron•Falochron⸣
+dalba_stawa•Dalba/Stawa⸣
+dok_plywający•Dok pływający⸣
+sztuczna_wyspa•Sztuczna wyspa⸣
+tunel•Tunel⸣
+most•Most⸣
+grobla•Grobla⸣
+opaska_brzegowa •Opaska brzegowa ⸣
+platforma_wydob•Platforma wydobywcza⸣
+kabel_telek•Kabel telekomunikacyjny⸣
+kabel_energ•Kabel energetyczny⸣
+gazaciag•Gazociąg⸣
+ropociag•Ropociąg⸣
+kanalizacja•Kanalizacja⸣
+kabel•Kabel inny⸣
+rurociag•Rurociag inny⸣
+inne•Inne]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_submarine_axes_type">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Typ osi podmorskich kabli i rurociągów]]></comment>
+		<position x="1960" y="160" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_submarine_axes_type_pk" type="pk-constr" table="dictionary.dictionary_submarine_axes_type">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+kabel•kabel⸣
+rurociag•rurociąg]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_closed_zones_type">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Typ stref zamkniętych dla żeglugi i rybołówstwa]]></comment>
+		<position x="1100" y="1020" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+		</column>
+		<constraint name="dictionary_access_infrastructure_type_pk" type="pk-constr" table="dictionary.dictionary_closed_zones_type">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+zzr•zamknięta przez cały rok dla żeglugi i rybołówstwa⸣
+zr•zamknięta przez cały rok dla rybołówstwa⸣
+ozzr•okresowo zamknięta dla żeglugi i rybołówstwa]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_mooring_boundaries_status">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Status granic kotwicowisk morskich]]></comment>
+		<position x="1540" y="920" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_marinas_boundaries_status_pk" type="pk-constr"
+			table="dictionary.dictionary_mooring_boundaries_status">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+obowiazujacy•obowiązujący]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_coastal_milage_series">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Ciągi kilometraża wybrzeża morskiego]]></comment>
+		<position x="1540" y="320" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_coastal_milage_status_pk" type="pk-constr" table="dictionary.dictionary_coastal_milage_series">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+Glowny•Główny⸣
+Elblag•Elbląg⸣
+Hel•Hel⸣
+Zalew-Wislany•Zalew Wiślany]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_conservation_plans_source">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Pochodzenie obszaru ochrony Natura 2000]]></comment>
+		<position x="1980" y="260" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_conservation_plans_type_pk" type="pk-constr"
+			table="dictionary.dictionary_conservation_plans_source">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+RDOS_Gdansk•RDOŚ w Gdańsku⸣
+RDOS_Szczecin•RDOŚ w Szczecinie]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_access_infrastructure_type_waterway">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Rodzaj drogi wodnej]]></comment>
+		<position x="740" y="60" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+		</column>
+		<constraint name="dictionary_access_infrastructure_type_pk" type="pk-constr"
+			table="dictionary.dictionary_access_infrastructure_type_waterway">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+tor_wodny•tor wodny⸣
+tor_podejsciowy•tor podejściowy⸣
+tor_dojsciowy•tor dojściowy⸣
+obrotnica•obrotnica⸣
+tss_pas•pas ruchu⸣
+tss_separator•separator pasów ruchu⸣
+tss_rondo•rondo⸣
+tss_skrzyzowanie •skrzyżowanie pasów ruchu⸣
+kanal_portowy•kanał portowy]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_base_line_type">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Rodzaj linii]]></comment>
+		<position x="1100" y="1120" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_ship_wrecks_type_pk" type="pk-constr" table="dictionary.dictionary_base_line_type">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+lpmt•Linia podstawowa morza terytorialnego⸣
+zgmt•Zewnetrzna granica morza terytorialnego⸣
+zgsp•Zewnetrzna granica strefy przyleglej]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_protection_border_security_level">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Poziom bezpieczeństwa]]></comment>
+		<position x="1960" y="1040" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_port_boundaries_status_pk" type="pk-constr"
+			table="dictionary.dictionary_protection_border_security_level">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+50•50⸣
+100•100⸣
+200•200⸣
+500•500⸣
+<=20•nie więcej niż 20]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_protection_border_location">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Poziom bezpieczeństwa]]></comment>
+		<position x="1980" y="1140" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_port_boundaries_status_pk" type="pk-constr"
+			table="dictionary.dictionary_protection_border_location">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+otwarte_morze•Otwarte Morze⸣
+polwysep_helski•Półwysep Helski⸣
+zalew_szczecinski•Zalew Szczeciński⸣
+zalew_wislany•Zalew Wiślany⸣
+zatoka_gdanska•Zatoka Gdańska]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_coast_protection_location">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Poziom bezpieczeństwa]]></comment>
+		<position x="1980" y="1280" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_port_boundaries_status_pk" type="pk-constr"
+			table="dictionary.dictionary_coast_protection_location">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+otwarte_morze•Otwarte Morze⸣
+polwysep_helski•Półwysep Helski⸣
+zalew_szczecinski•Zalew Szczeciński⸣
+zalew_wislany•Zalew Wiślany⸣
+zatoka_gdanska•Zatoka Gdańska⸣
+zalew_szcz_swina_dzwina_zalew_kam•Zalew Szczeciński wraz ze Świną, Dziwną, oraz Zalewem Kamieńskim]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_management_decision_type">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Rodzaj decyzji na trawały zarząd]]></comment>
+		<position x="760" y="1200" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_ship_wrecks_type_pk" type="pk-constr" table="dictionary.dictionary_management_decision_type">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+Nadanie•Nadanie⸣
+Wygaszenie•Wygaszenie]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_uses_agreements_type">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Rodzaj umowy]]></comment>
+		<position x="1100" y="1240" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_ship_wrecks_type_pk" type="pk-constr" table="dictionary.dictionary_uses_agreements_type">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+uzyczenia•Użyczenia⸣
+uzytkowania•Użytkowania]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_bans_exemption_character">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Charakter przedsięwzięcia w odniesieniu do decyzji DUM na wykorzystanie pasa technicznego do celów innych niż ochronne]]></comment>
+		<position x="1100" y="140" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_technical_belts_uses_character_pk" type="pk-constr"
+			table="dictionary.dictionary_bans_exemption_character">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+budowa•Zabudowa i zagospodarowanie nie związane z prowadzoną sezonową działalnością gospodarczą, remont/przebudowa obiektów, wykonanie dojść do wody, pomostów itp.⸣
+dzialnosc_gospodarcza•Sezonowa działalność gospodarcza sezonowa (w tym działalność gospodarcza prowadzona na plaży, akcje promocyjne)⸣
+imprezy•Imprezy okolicznościowe w tym ognisko, grill, ślub, fajerwerki, przejażdżki konne, wjazd samochodem w celach np: badawczych, prowadzenie badań ]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_sea_routes_status_project">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Status projektu]]></comment>
+		<position x="1580" y="1220" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_ship_wrecks_status_pk" type="pk-constr" table="dictionary.dictionary_sea_routes_status_project">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+Z•Zakończenie pomiarów batymetrycznych w odcinku trasy Helcom]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_print_scale">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Skala wydruku]]></comment>
+		<position x="760" y="1080" />
+		<column name="code" not-null="true">
+			<type name="smallint" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_ship_wrecks_category_pk" type="pk-constr" table="dictionary.dictionary_print_scale">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+5000•5000⸣
+10000•10000⸣
+20000•20000⸣
+50000•50000⸣
+100000•100000]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_sea_routes_type">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Rodzaj tras żeglugowych]]></comment>
+		<position x="1100" y="1340" />
+		<column name="code" not-null="true">
+			<type name="text" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_sea_routes_category_pk" type="pk-constr" table="dictionary.dictionary_sea_routes_type">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+trasy_zwyczajowe •Trasy zwyczajowe⸣
+trasy_zwyczajowe_monitorowane•Trasy zwyczajowe - monitorowane w ramach konwencji Helsińskiej (tzw. trasy HELCOMowe)⸣
+trasy_miedzynarodowe •Trasy międzynarodowe (przyjęte przez IMO, np. TSS Słupsk)]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_port_boundaries_type">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Rodzaj portów]]></comment>
+		<position x="1560" y="720" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_port_boundaries_status_pk" type="pk-constr" table="dictionary.dictionary_port_boundaries_type">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+handlowy•Port handlowy⸣
+rybacki•Port rybacki⸣
+jachtowy•Port jachtowy (Marina)⸣
+wojenny•Bazy okrętów marynarki wojennej]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_obchody_ow">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Obchody Ochronne Wybrzeża]]></comment>
+		<position x="760" y="720" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<column name="oow">
+			<type name="smallint" length="0" />
+		</column>
+		<column name="mo">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod urzędu morskiego]]></comment>
+		</column>
+		<column name="adress">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Adres]]></comment>
+		</column>
+		<column name="phone">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Telefon]]></comment>
+		</column>
+		<constraint name="dictionary_obch_code_pk" type="pk-constr" table="dictionary.dictionary_obchody_ow">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[description•mo•oow•code•adress•phone⸣
+Obchód Ochrony Wybrzeża Ustka•umsl•OOWUstka•OBCHOWUstka•76-270 Ustka, ul. Kościuszki 13•(059) 814-95-46⸣
+Obchód Ochrony Wybrzeża Łeba•umsl•OOWLeba•OBCHOWLeba•84-360 Łeba, ul. T. Kościuszki 1•(059) 866-12-77⸣
+Obwód Ochrony Wybrzeża Darłowo •umsl•OOWDarlowo•OBCHOWDarlowo•Darłowo, ul. Zachodnia 2•(094) 314-84-13⸣
+Obchód Ochrony Wybrzeża Ustronie Morskie•umsl•OOWUstronieM•OBCHOWUstronieM•78-111 Ustronie Morskie, ul. Nadbrzeżna 8 •(094) 351-55-89⸣
+Obchód Ochrony Wybrzeża Międzyzdroje•ums•OOW-I•OBCHOWMiedzyzdroje••⸣
+Obchód Ochrony Wybrzeża Niechorze•ums•OOW-II•OBCHOWNiechorze••⸣
+Obchód Ochrony Wybrzeża Wolin•ums•OOW-III•OBCHOWWolin••⸣
+Obchód Ochrony Wybrzeża Nowe Warpno•ums•OOW-IV•OBCHOWNoweWarpno••⸣
+Obchód Ochrony Wybrzeża Stogi•umgdy•OOWSobieszewo•OBCHOWStogi•80-654 Gdańsk, ul. Sokola 32•(058) 307-31-84⸣
+Obchód Ochrony Wybrzeża Rąbka•umsl•OOWLeba•OBCHOWRabka•84-360 Łeba•(059) 866-15-02⸣
+Obchód Ochrony Wybrzeża Czołpino•umsl•OOWLeba•OBCHOWCzolpino•76-212 Rowy, ul. Portowa 4•(059) 811-73-15⸣
+Obchód Ochrony Wybrzeża Rowy•umsl•OOWUstka•OBCHOWRowy•76-212 Rowy, ul. Portowa 4•(059) 866-12-77⸣
+Obchód Ochrony Wybrzeża Modlinek•umsl•OOWUstka•OBCHOWModlinek•76-270 Ustka, ul. Marynarki Polskiej 3•(059) 814-44-30⸣
+Obchód Ochrony Wybrzeża Jarosławiec•umsl•OOWUstka•OBCHOWJaroslawiec•76-107 Jarosławiec, ul. Słoneczna 24•(059) 810-94-13⸣
+Obchód Ochrony Wybrzeża Wicie•umsl•OOWDarlowo•OBCHOWWicie•76-107 Jarosławiec, Rusinowo 57•(059) 810-94-60⸣
+Obchód Ochrony Wybrzeża Bobolino•umsl•OOWDarlowo•OBCHOWBoblino•Bobolino 14•(094) 314-80-15⸣
+Obchód Ochrony Wybrzeża Dąbkowice•umsl•OOWDarlowo•OBCHOWDabkowice•76-150 Dąbki, Dąbkowice 4•⸣
+Obchód Ochrony Wybrzeża Łazy•umsl•OOWDarlowo•OBCHOWLazy•76-003 Sucha Koszalińska, Łazy ul. Wczasowa 2a•(094) 318-29-96⸣
+Obchód Ochrony Wybrzeża Mielno•umsl•OOWUstronieM•OBCHOWMielno•76-032 Mielno, ul. Warszawska 1•(094) 318-97-66⸣
+Obchód Ochrony Wybrzeża Chłopy•umsl•OOWUstronieM•OBCHOWChlopy•76-034 Sarbinowo, ul. Kapitańska 65•(094) 316-55-80⸣
+Obchód Ochrony Wybrzeża Pleśnia•umsl•OOWUstronieM•OBCHOWPlesnia•76-038 Dobrzyca, Pleśnia 10•(094) 318-12-04⸣
+Obchód Ochrony Wybrzeża Kołobrzeg•umsl•OOWUstronieM•OBCHOWKolobrzeg•78-100 Kołobrzeg, ul. Morska 8•(094) 352-27-99⸣
+Obchód Ochrony Wybrzeża Dźwirzyno•umsl•OOWUstronieM•OBCHOWDzwirzyno•78-131 Dźwirzyno, ul. Wyzwolenia 1•(094) 358-50-50⸣
+Obchód Ochrony Wybrzeża Orle•umgdy•OOWSobieszewo•OBCHOWOrle•80-680 Gdańsk, ul. Lazurowa 10•(058) 308-07-25⸣
+Obchód Ochrony Wybrzeża Gdynia•umgdy•OOWSobieszewo•OBCHOWGdynia•81-357 Gdynia, ul. 3 Maja 9-13•⸣
+Obchód Ochrony Wybrzeża Frombork•umgdy•OOWSztutowo•OBCHOWFrombork•14 -530 Frombork, ul. Portowa 2•(055) 243-72-69⸣
+Obchód Ochrony Wybrzeża Krynica Morska•umgdy•OOWSztutowo•OBCHOWKrynicaMorska•82-120 Krynica Morska, ul. Górników 2•(055) 247-60-65⸣
+Obchód Ochrony Wybrzeża Kąty Rybackie•umgdy•OOWSztutowo•OBCHOWKatyRybackie•82-110 Sztutowo, ul Plażowa•(055) 247-87-84⸣
+Obchód Ochrony Wybrzeża Jantar•umgdy•OOWSztutowo•OBCHOWJantar•82-103 Mikoszewo, ul Gdańska 2a•(055) 247-88-18⸣
+Obchód Ochrony Wybrzeża Jastarnia•umgdy•OOWRozewie•OBCHOWJastarnia•84-140 Jastarnia ul. Ogrodowa 108•(058) 675-22-03⸣
+Obchód Ochrony Wybrzeża Kuźnica•umgdy•OOWRozewie•OBCHOWKuznica•84-104 Władysławowo, ul. Rozewska 17•(058) 674-91-54⸣
+Obchód Ochrony Wybrzeża Chałupy•umgdy•OOWRozewie•OBCHOWChalupy•84-140 Jastarnia ul. Ogrodowa 108•(058) 675-22-03⸣
+Obchód Ochrony Wybrzeża Karwia•umgdy•OOWRozewie•OBCHOWKarwia•84-104 Władysławowo, ul. Rozewska 17•(058) 674-91-54⸣
+Obchód Ochrony Wybrzeża Hel•umgdy•OOWRozewie•OBCHOWHel•84-104 Władysławowo, ul. Rozewska 17•(058) 674-91-54⸣
+Obchód Ochrony Wybrzeża Rozewie•umgdy•OOWRozewie•OBCHOWRozewie•84-104 Władysławowo, ul. Rozewska 17•(058) 674-91-54⸣
+Obchód Ochrony Wybrzeża Dębki•umgdy•OOWLubiatowo•OBCHOWDebki•84-110 Dębki, ul. Plażowa 1•(058) 673-52-94⸣
+Obchód Ochrony Wybrzeża Białogóra•umgdy•OOWLubiatowo•OBCHOWBialagora•84-113 Białogóra , ul. Szkolna 7•(058) 673-51-54⸣
+Obchód Ochrony Wybrzeża Stilo•umgdy•OOWLubiatowo•OBCHOWStilo•80-210 Sasino ul. Latarników 3•(058) 676-33-05⸣
+Obchód Ochrony Wybrzeża Świnoujście•ums•OOW-I•OBCHOWSwinoujscie••⸣
+Obchód Ochrony Wybrzeża Międzywodzie•ums•OOW-I•OBCHOWMiedzywodzie••⸣
+Obchód Ochrony Wybrzeża Dziwnów•ums•OOW-I•OBCHOWDziwnow••⸣
+Obchód Ochrony Wybrzeża Karsibór•ums•OOW-I•OBCHOWKarsibor••⸣
+Obchód Ochrony Wybrzeża Pobierowo•ums•OOW-II•OBCHOWPobierowo••⸣
+Obchód Ochrony Wybrzeża Mrzeżyno•ums•OOW-II•OBCHOWMrzeżyno••⸣
+Obchód Ochrony Wybrzeża Rogowo•ums•OOW-II•OBCHOWRogowo••⸣
+Obchód Ochrony Wybrzeża Kamień Pomorski•ums•OOW-III•OBCHOWKamienPomorski••⸣
+Obchód Ochrony Wybrzeża Stepnica•ums•OOW-III•OBCHOWStepnica••⸣
+Obchód Ochrony Wybrzeża Trzebież•ums•OOW-IV•OBCHOWTrzebiez••]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_payment">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Opłata]]></comment>
+		<position x="740" y="1300" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_ship_wrecks_type_pk" type="pk-constr" table="dictionary.dictionary_payment">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+o•opłacone⸣
+no•nieopłacone]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_additional_payment">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Opłata dodatkowa]]></comment>
+		<position x="760" y="1440" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_ship_wrecks_type_pk" type="pk-constr" table="dictionary.dictionary_additional_payment">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+d•dotyczy⸣
+nd•nie dotyczy]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_building_permit">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Pozowlenie na budowę]]></comment>
+		<position x="1100" y="1460" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_ship_wrecks_type_pk" type="pk-constr" table="dictionary.dictionary_building_permit">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+tak•tak⸣
+nie•nie⸣
+o•oczekuje⸣
+nd•nie dotyczy]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_start_of_construction">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Rozpoczęcie budowy]]></comment>
+		<position x="1100" y="1560" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_ship_wrecks_type_pk" type="pk-constr" table="dictionary.dictionary_start_of_construction">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+tak•tak⸣
+nie•nie⸣
+o•oczekuje]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_take_up_exploitation">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Podjęcie wykorzystywania ]]></comment>
+		<position x="1420" y="1560" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_ship_wrecks_type_pk" type="pk-constr" table="dictionary.dictionary_take_up_exploitation">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+tak•tak⸣
+nie•nie⸣
+o•oczekuje]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_data_administrator">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Dysponent danych /Administrator danych]]></comment>
+		<position x="760" y="920" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_maritime_office_pk" type="pk-constr" table="dictionary.dictionary_data_administrator">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[description•code⸣
+Urząd Morski•um⸣
+Ministerstwo Gospodarski Morskiej i Żeglugi Śródlądowej•mgmizs⸣
+Biuro Hydrograficzne Marynarki Wojennej
+•bhmw]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_ship_wrecks_cultural_heritage">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Dziedzictwo kulturowe]]></comment>
+		<position x="1560" y="1420" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_ship_wrecks_status_pk" type="pk-constr"
+			table="dictionary.dictionary_ship_wrecks_cultural_heritage">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+historyczny•Obiekt historyczny⸣
+cmentarzysko•Podwodne cmentarzysko⸣
+nd•obiekt nie stanowiący dziedzictwa kulturowego]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_ship_wrecks_diving">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Udostępnienie wraku do nurkowania]]></comment>
+		<position x="1780" y="1520" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod]]></comment>
+		</column>
+		<column name="description" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_ship_wrecks_status_pk" type="pk-constr" table="dictionary.dictionary_ship_wrecks_diving">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+zakaz•wrak objęty zakazem nurkowania⸣
+udost-do-50•wrak udostępniony do nurkowania (poniżej 50 m)⸣
+udost-pow-50•wrak udostępniony do nurkowania (powyżej 50 m)]]>
+		</initial-data>
+	</table>
+
+	<table name="dictionary_document_character">
+		<schema name="dictionary" />
+		<role name="postgres" />
+		<comment><![CDATA[Słownik: Charakter dokumentów]]></comment>
+		<position x="740" y="200" />
+		<column name="code" not-null="true">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Kod ]]></comment>
+		</column>
+		<column name="description">
+			<type name="character varying" length="0" />
+			<comment><![CDATA[Opis]]></comment>
+		</column>
+		<constraint name="dictionary_document_character_pk" type="pk-constr" table="dictionary.dictionary_document_character">
+			<columns names="code" ref-type="src-columns" />
+		</constraint>
+		<initial-data>
+<![CDATA[code•description⸣
+G•Główny⸣
+P•Podrzędny⸣
+•⸣
+•⸣
+•⸣
+•⸣
+•⸣
+•⸣
+•⸣
+•⸣
+•⸣
+•⸣
+•⸣
+•⸣
+•⸣
+•⸣
+•⸣
+•⸣
+•⸣
+•⸣
+•⸣
+•⸣
+•⸣
+•⸣
+•⸣
+•⸣
+•⸣
+•⸣
+•⸣
+•⸣
+•⸣
+•⸣
+•⸣
+•]]>
+		</initial-data>
+	</table>
+
+	<constraint name="document_type_id_fk" type="fk-constr" comparison-type="MATCH FULL" upd-action="NO ACTION"
+		del-action="NO ACTION" ref-table="documents.document_type" table="documents.document">
+		<columns names="document_type_id" ref-type="src-columns" />
+		<columns names="document_type_id" ref-type="dst-columns" />
+		<comment><![CDATA[klucz obcy do słownika dokumentów]]></comment>
+	</constraint>
+
+	<constraint name="document_id_geom_fk" type="fk-constr" comparison-type="MATCH SIMPLE" upd-action="NO ACTION"
+		del-action="CASCADE" ref-table="documents.document" table="documents.document_geometries">
+		<columns names="document_id" ref-type="src-columns" />
+		<columns names="document_id" ref-type="dst-columns" />
+		<comment><![CDATA[klucz obcy do tabeli dokumentów]]></comment>
+	</constraint>
+
+	<constraint name="document_id_attachment_fk" type="fk-constr" comparison-type="MATCH SIMPLE" upd-action="NO ACTION"
+		del-action="CASCADE" ref-table="documents.document" table="documents.document_attachments">
+		<columns names="document_id" ref-type="src-columns" />
+		<columns names="document_id" ref-type="dst-columns" />
+		<comment><![CDATA[klucz obcy do tabeli dokumentów]]></comment>
+	</constraint>
+
+	<constraint name="document_id_photo_fk" type="fk-constr" comparison-type="MATCH SIMPLE" upd-action="NO ACTION"
+		del-action="CASCADE" ref-table="documents.document" table="documents.document_photos">
+		<columns names="document_id" ref-type="src-columns" />
+		<columns names="document_id" ref-type="dst-columns" />
+		<comment><![CDATA[klucz obcy do tabeli dokumentów]]></comment>
+	</constraint>
+
+	<constraint name="ship_traffic_id_fk" type="fk-constr" comparison-type="MATCH SIMPLE" upd-action="NO ACTION"
+		del-action="NO ACTION" ref-table="documents.document" table="documents_data.ship_traffic">
+		<columns names="document_id" ref-type="src-columns" />
+		<columns names="document_id" ref-type="dst-columns" />
+		<comment><![CDATA[powiązanie z tabelą dokumentów]]></comment>
+	</constraint>
+
+	<constraint name="dictionary_oow_fk" type="fk-constr" comparison-type="MATCH FULL" upd-action="NO ACTION" del-action="NO ACTION"
+		ref-table="dictionary.dictionary_maritime_office" table="dictionary.dictionary_obwody_ow">
+		<columns names="mo" ref-type="src-columns" />
+		<columns names="mo" ref-type="dst-columns" />
+		<comment><![CDATA[Kod urzędu morskiego]]></comment>
+	</constraint>
+
+	<constraint name="dictionary_obch_oow_fk" type="fk-constr" comparison-type="MATCH FULL" upd-action="NO ACTION"
+		del-action="NO ACTION" ref-table="dictionary.dictionary_obwody_ow" table="dictionary.dictionary_obchody_ow">
+		<columns names="code" ref-type="src-columns" />
+		<columns names="code" ref-type="dst-columns" />
+	</constraint>
+
+	<constraint name="dictionary_obch_mo_fk" type="fk-constr" comparison-type="MATCH FULL" upd-action="NO ACTION"
+		del-action="NO ACTION" ref-table="dictionary.dictionary_maritime_office" table="dictionary.dictionary_obchody_ow">
+		<columns names="mo" ref-type="src-columns" />
+		<columns names="mo" ref-type="dst-columns" />
+	</constraint>
+
+	<relationship name="rel_document_document_type" type="relfk" src-table="documents.document"
+		dst-table="documents.document_type" src-required="false" dst-required="false" />
+
+	<relationship name="rel_document_geometries_document" type="relfk" src-table="documents.document_geometries"
+		dst-table="documents.document" src-required="false" dst-required="false" />
+
+	<relationship name="rel_document_attachments_document" type="relfk" src-table="documents.document_attachments"
+		dst-table="documents.document" src-required="false" dst-required="false" />
+
+	<relationship name="rel_document_photos_document" type="relfk" src-table="documents.document_photos"
+		dst-table="documents.document" src-required="false" dst-required="false" />
+
+	<relationship name="rel_ship_traffic_document" type="relfk" src-table="documents_data.ship_traffic"
+		dst-table="documents.document" src-required="false" dst-required="false" />
+
+	<relationship name="rel_dictionary_obwody_ow_dictionary_maritime_office" type="relfk"
+		src-table="dictionary.dictionary_obwody_ow" dst-table="dictionary.dictionary_maritime_office" src-required="false" dst-required="false" />
+
+	<relationship name="rel_dictionary_obchody_ow_dictionary_obwody_ow" type="relfk" src-table="dictionary.dictionary_obchody_ow"
+		dst-table="dictionary.dictionary_obwody_ow" src-required="false" dst-required="false" />
+
+	<relationship name="rel_dictionary_obchody_ow_dictionary_maritime_office" type="relfk"
+		src-table="dictionary.dictionary_obchody_ow" dst-table="dictionary.dictionary_maritime_office" src-required="false" dst-required="false" />
+
+</dbmodel>
